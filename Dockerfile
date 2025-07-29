@@ -16,10 +16,10 @@ RUN npm install --production
 ENV SUPABASE_ACCESS_TOKEN=""
 ENV PROJECT_REF=""
 ENV FEATURES="database,docs,functions,storage,debug,development"
-ENV PORT=3000
+ENV PORT=45678
 
 # Expõe a porta
-EXPOSE 3000
+EXPOSE 45678
 
 # Comando para iniciar o servidor HTTP
 CMD ["npm", "start"] 

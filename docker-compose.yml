@@ -4,14 +4,14 @@ services:
     build: .
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "45678:45678"
     environment:
       - SUPABASE_ACCESS_TOKEN=${SUPABASE_ACCESS_TOKEN}
       - PROJECT_REF=${PROJECT_REF}
       - FEATURES=${FEATURES:-database,docs,functions,storage,debug,development}
-      - PORT=3000
+      - PORT=45678
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:45678/health"]
       interval: 30s
       timeout: 10s
       retries: 3
