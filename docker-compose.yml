@@ -3,11 +3,20 @@ services:
   supabase-mcp:
     build: .
     restart: unless-stopped
+    ports:
+      - "3000:3000"
     environment:
       - SUPABASE_ACCESS_TOKEN=${SUPABASE_ACCESS_TOKEN}
       - PROJECT_REF=${PROJECT_REF}
       - FEATURES=${FEATURES:-database,docs,functions,storage,debug,development}
-    # MCP Server usa stdio, não precisa expor portas
+      - PORT=3000
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Servidor HTTP wrapper para o MCP Server
     # As variáveis de ambiente serão injetadas aqui pelo Coolify.
     # Não é necessário listá-las, o Coolify fará isso automaticamente
     # com base no que você configurar na UI. 
