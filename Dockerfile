@@ -14,9 +14,5 @@ ENV READ_ONLY=""
 ENV FEATURES="database,docs,functions,storage,debug,development"
 
 # O comando para iniciar o servidor.
-# Ele usa as variáveis de ambiente para configurar a execução.
-CMD npx -y @supabase/mcp-server-supabase@latest \
-    --access-token="$SUPABASE_ACCESS_TOKEN" \
-    --project-ref="$PROJECT_REF" \
-    $( [ ! -z "$READ_ONLY" ] && echo "$READ_ONLY" ) \
-    $( [ ! -z "$FEATURES" ] && echo "--features=$FEATURES" ) 
+# Comando simplificado para evitar problemas com argumentos vazios
+CMD npx -y @supabase/mcp-server-supabase@latest --access-token="$SUPABASE_ACCESS_TOKEN" --project-ref="$PROJECT_REF" --features="$FEATURES" 
