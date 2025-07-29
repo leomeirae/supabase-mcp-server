@@ -7,6 +7,7 @@ services:
       - SUPABASE_ACCESS_TOKEN=${SUPABASE_ACCESS_TOKEN}
       - PROJECT_REF=${PROJECT_REF}
       - FEATURES=${FEATURES:-database,docs,functions,storage,debug,development}
+    # MCP Server usa stdio, não HTTP, então não precisa de health check
     # As variáveis de ambiente serão injetadas aqui pelo Coolify.
     # Não é necessário listá-las, o Coolify fará isso automaticamente
     # com base no que você configurar na UI. 
