@@ -8,10 +8,10 @@ WORKDIR /usr/src/app
 # Estes são os valores padrão; eles serão sobrescritos pelas configurações do seu serviço no Coolify.
 ENV SUPABASE_ACCESS_TOKEN=""
 ENV PROJECT_REF=""
-# Recomendado para segurança, conforme a documentação
-ENV READ_ONLY="--read-only"
-# Opcional: para habilitar/desabilitar grupos de ferramentas, ex: "database,docs"
-ENV FEATURES=""
+# Modo de escrita habilitado para operações de leads e imagens
+ENV READ_ONLY=""
+# Todas as features necessárias para gestão completa
+ENV FEATURES="database,docs,functions,storage,debug,development"
 
 # O comando para iniciar o servidor.
 # Ele usa as variáveis de ambiente para configurar a execução.
