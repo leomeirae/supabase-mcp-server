@@ -6,7 +6,6 @@ services:
     environment:
       - SUPABASE_ACCESS_TOKEN=${SUPABASE_ACCESS_TOKEN}
       - PROJECT_REF=${PROJECT_REF}
-      - READ_ONLY=${READ_ONLY:-}
       - FEATURES=${FEATURES:-database,docs,functions,storage,debug,development}
     # As variáveis de ambiente serão injetadas aqui pelo Coolify.
     # Não é necessário listá-las, o Coolify fará isso automaticamente
