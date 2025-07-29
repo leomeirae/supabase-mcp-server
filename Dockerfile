@@ -18,5 +18,5 @@ ENV FEATURES="database,docs,functions,storage,debug,development"
 CMD npx -y @supabase/mcp-server-supabase@latest \
     --access-token="$SUPABASE_ACCESS_TOKEN" \
     --project-ref="$PROJECT_REF" \
-    $READ_ONLY \
+    $( [ ! -z "$READ_ONLY" ] && echo "$READ_ONLY" ) \
     $( [ ! -z "$FEATURES" ] && echo "--features=$FEATURES" ) 
