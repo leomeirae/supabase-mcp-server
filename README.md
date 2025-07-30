@@ -11,6 +11,7 @@ Este repositório contém os arquivos necessários para fazer o deploy do Supaba
 **Configuração de Porta**: 
 - **Interna**: 45678 (dentro do container)
 - **Externa**: Gerenciada automaticamente pelo Coolify
+- **Acesso**: Via proxy reverso do Coolify (sem configuração manual de porta)
 
 **Endpoints Disponíveis**:
 - `GET /` - Informações do servidor
