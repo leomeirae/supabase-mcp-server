@@ -2,6 +2,20 @@
 
 Este repositório contém os arquivos necessários para fazer o deploy do Supabase MCP Server no Coolify usando Docker, configurado para **gestão completa de leads e imagens de contas de energia**.
 
+## 🚀 **Servidor Ativo e Funcionando**
+
+**URL do Servidor**: `http://egkccc8ow4kw40gokgkw0.157.180.32.249.sslip.io`
+
+**Status**: ✅ **OPERACIONAL** - Pronto para uso em produção
+
+**Endpoints Disponíveis**:
+- `GET /` - Informações do servidor
+- `GET /health` - Status de saúde
+- `GET /status` - Status detalhado
+- `GET /test` - Endpoint de teste
+- `POST /test` - Teste POST
+- `POST /mcp` - **Endpoint principal para comunicação MCP**
+
 ## O que é o Supabase MCP Server?
 
 O Supabase MCP Server permite conectar seu projeto Supabase a assistentes de IA como Cursor, Claude, Windsurf e outros através do Model Context Protocol (MCP). Ele oferece ferramentas para:
@@ -13,111 +27,93 @@ O Supabase MCP Server permite conectar seu projeto Supabase a assistentes de IA 
 - **Storage**: Gerenciamento de arquivos e buckets
 - **Documentação**: Acesso à documentação atualizada
 
-## Arquivos Incluídos
+## 🛠️ **Tools Disponíveis para Agentes de IA**
 
-- `Dockerfile`: Define como construir a imagem Docker do servidor
-- `docker-compose.yml`: Configuração para orquestração no Coolify
-- `instrucoes.md`: Instruções detalhadas em português
+### 📊 **Database Tools (Operações de Banco)**
 
-## Pré-requisitos
+#### **Tabelas e Schemas**
+- `list_tables` - Lista todas as tabelas do banco
+- `list_extensions` - Lista extensões instaladas
+- `list_migrations` - Lista migrações aplicadas
 
-1. **Coolify Self-Hosted**: Uma instância do Coolify funcionando
-2. **Conta no GitHub**: Para armazenar este repositório
-3. **Supabase Personal Access Token (PAT)**: Token de acesso pessoal do Supabase
+#### **Operações SQL**
+- `execute_sql` - Executa SQL customizado
+- `apply_migration` - Aplica migrações DDL
+- `generate_typescript_types` - Gera tipos TypeScript
 
-## Como Obter o Supabase PAT
+#### **Tabelas Específicas para Gestão de Leads**
+- `leads` - Tabela principal de leads
+- `energy_bill_images` - Imagens das contas de energia (BLOB)
+- `image_metadata` - Metadados das imagens
+- `energy_bills` - Registro de contas processadas
 
-1. Acesse [supabase.com](https://supabase.com) e faça login
-2. Vá para **Settings** > **Access Tokens**
-3. Clique em **Generate new token**
-4. Dê um nome descritivo como "Coolify MCP Server - Gestão Leads"
-5. Copie o token gerado (você não conseguirá vê-lo novamente)
+### 🎯 **Funções Específicas para Gestão de Leads**
 
-## Deploy no Coolify
+#### **Operações de Lead**
+- `cadastrar_lead` - Cadastra ou atualiza lead
+- `buscar_leads` - Consulta dados de leads
+- `buscar_lead_por_id` - Busca lead por ID
+- `atualizar_lead` - Atualiza dados do lead
+- `validar_qualificacao_lead` - Valida qualificação
 
-### Passo 1: Preparar o Repositório
+#### **Campos de Lead Disponíveis**
+```json
+{
+  "id": "UUID",
+  "phone_number": "String (normalizado)",
+  "name": "String",
+  "city": "String",
+  "state": "String",
+  "invoice_amount": "Decimal",
+  "client_type": "String",
+  "email": "String",
+  "additional_data": "JSON",
+  "created_at": "Timestamp",
+  "updated_at": "Timestamp"
+}
+```
 
-1. Faça fork ou clone este repositório
-2. Envie para seu GitHub (pode ser privado)
+### 📸 **Storage Tools (Gestão de Imagens)**
 
-### Passo 2: Configurar no Coolify
+#### **Upload e Gestão de Imagens**
+- `upload_energy_bill_image` - Upload de imagem como BLOB
+- `generate_signed_url` - Gera URL assinada para acesso
+- `save_image_metadata` - Salva metadados da imagem
+- `salvar_energy_bill` - Registra conta processada
 
-1. No dashboard do Coolify, vá para **Create New Resource**
-2. Selecione **"Deploy from a Git Repository"**
-3. Conecte sua conta do GitHub e selecione este repositório
-4. Dê um nome ao serviço, como "Supabase MCP Server - Gestão Leads"
+#### **Buckets e Arquivos**
+- Gerenciamento de buckets de storage
+- Upload/download de arquivos
+- URLs públicas e privadas
+- Políticas de acesso
 
-### Passo 3: Configurar Variáveis de Ambiente
+### 🔧 **Edge Functions**
 
-Na aba **Environment Variables** do Coolify, configure:
+#### **Funções Disponíveis**
+- `list_edge_functions` - Lista funções disponíveis
+- `deploy_edge_function` - Deploy de nova função
+- Execução de funções personalizadas
 
-#### Variáveis Obrigatórias:
-- `SUPABASE_ACCESS_TOKEN`: Seu Personal Access Token do Supabase
-  - **IMPORTANTE**: Marque como "Build-time variable" e "Is secret"
-- `PROJECT_REF`: ID de referência do seu projeto Supabase
-  - Exemplo: `abcdefghijklmnopqrst`
+### 📚 **Documentação**
 
-#### Variáveis Opcionais (Configuradas por Padrão):
-- `READ_ONLY`: Deixe vazio (`""`) para permitir operações de escrita
-- `FEATURES`: `database,docs,functions,storage,debug,development`
+#### **Acesso à Documentação**
+- `search_docs` - Busca na documentação
+- Documentação atualizada do Supabase
+- Guias e tutoriais
 
-### Passo 4: Fazer o Deploy
+### 🐛 **Debug e Desenvolvimento**
 
-1. Clique em **Deploy**
-2. Acompanhe os logs na aba **Logs**
-3. Aguarde a inicialização completa
+#### **Ferramentas de Debug**
+- `get_logs` - Acesso aos logs
+- `get_advisors` - Conselhos de segurança e performance
+- `get_project_url` - URL do projeto
+- `get_anon_key` - Chave anônima
 
-## Funcionalidades Disponíveis
+## 🔄 **Como Usar com Agentes de IA**
 
-### 🎯 Gestão de Leads
-- **cadastrar_lead**: Cadastra ou atualiza leads
-- **buscar_leads**: Consulta dados de leads
-- **buscar_lead_por_id**: Busca lead por ID
-- **atualizar_lead**: Atualiza dados do lead
-- **validar_qualificacao_lead**: Valida qualificação
+### **Configuração do Agente MCP**
 
-### 📸 Gestão de Imagens
-- **Upload de imagens**: Contas de energia como BLOB
-- **Metadados**: Informações sobre imagens
-- **URLs assinadas**: Acesso seguro às imagens
-- **Storage buckets**: Gerenciamento de arquivos
-
-### 🗄️ Operações de Banco
-- **Tabelas**: `leads`, `energy_bill_images`, `image_metadata`, `energy_bills`
-- **SQL completo**: Consultas e modificações
-- **Migrações**: Alterações de schema
-- **Funções**: Edge Functions personalizadas
-
-## Configuração de Segurança
-
-### ⚠️ Avisos Importantes:
-
-1. **Modo de Escrita**: Este servidor permite operações de escrita
-2. **Acesso Completo**: Pode modificar dados e estrutura do banco
-3. **Monitoramento**: Monitore os logs regularmente
-4. **Backup**: Mantenha backups regulares do banco
-5. **Testes**: Teste em ambiente de desenvolvimento primeiro
-
-### Recomendações:
-
-1. **Use branches de desenvolvimento** quando possível
-2. **Monitore os logs** regularmente
-3. **Configure alertas** para operações críticas
-4. **Mantenha backups** automáticos
-5. **Teste as operações** antes de usar em produção
-
-### Grupos de Ferramentas Habilitadas:
-
-- `database`: Operações completas de banco de dados
-- `docs`: Documentação
-- `functions`: Edge Functions
-- `storage`: Storage buckets e arquivos
-- `debug`: Logs e debugging
-- `development`: Configurações de desenvolvimento
-
-## Conectando ao Cliente MCP
-
-Após o deploy, configure seu cliente MCP (como Cursor) com:
+Configure seu agente para usar o servidor:
 
 ```json
 {
@@ -126,7 +122,7 @@ Após o deploy, configure seu cliente MCP (como Cursor) com:
       "command": "curl",
       "args": [
         "-X", "POST",
-        "http://seu-coolify-url:porta",
+        "http://egkccc8ow4kw40gokgkw0.157.180.32.249.sslip.io/mcp",
         "-H", "Content-Type: application/json",
         "-d", "{\"jsonrpc\": \"2.0\", \"method\": \"initialize\", \"params\": {}}"
       ]
@@ -135,26 +131,184 @@ Após o deploy, configure seu cliente MCP (como Cursor) com:
 }
 ```
 
-## Troubleshooting
+### **Exemplos de Uso para Agentes**
 
-### Problemas Comuns:
+#### **1. Cadastrar um Novo Lead**
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "cadastrar_lead",
+    "arguments": {
+      "phone_number": "5511999999999",
+      "name": "João Silva",
+      "city": "São Paulo",
+      "state": "SP",
+      "invoice_amount": 150.50,
+      "client_type": "residencial",
+      "email": "joao@email.com",
+      "additional_data": {
+        "source": "website",
+        "campaign": "energia_verde"
+      }
+    }
+  }
+}
+```
 
-1. **Erro de permissão**: Verifique se o token tem permissões de escrita
-2. **Erro de projeto**: Confirme se o `PROJECT_REF` está correto
-3. **Timeout**: Verifique se o Coolify tem acesso à internet
-4. **Storage**: Confirme se o storage está habilitado no projeto
+#### **2. Buscar Leads por Telefone**
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "buscar_leads",
+    "arguments": {
+      "phone_number": "5511999999999"
+    }
+  }
+}
+```
 
-### Logs Úteis:
+#### **3. Upload de Imagem de Conta**
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "upload_energy_bill_image",
+    "arguments": {
+      "lead_id": "uuid-do-lead",
+      "image_data": "base64-encoded-image",
+      "filename": "conta_energia_janeiro.pdf",
+      "metadata": {
+        "month": "01",
+        "year": "2024",
+        "utility_company": "CPFL"
+      }
+    }
+  }
+}
+```
 
-- Verifique os logs do Coolify para erros de inicialização
-- Use `docker logs` se necessário para debug adicional
+#### **4. Executar SQL Customizado**
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "execute_sql",
+    "arguments": {
+      "query": "SELECT * FROM leads WHERE city = 'São Paulo' AND created_at >= NOW() - INTERVAL '30 days'"
+    }
+  }
+}
+```
 
-## Recursos Adicionais
+## 📋 **Casos de Uso Específicos**
 
-- [Documentação oficial do Supabase MCP](https://supabase.com/mcp)
-- [Model Context Protocol](https://modelcontextprotocol.io/)
-- [Documentação do Coolify](https://coolify.io/docs)
+### **Gestão de Leads - Fluxo Completo**
 
-## Licença
+1. **Cadastro de Lead**
+   - Normalização automática de telefone
+   - Validação de dados
+   - Armazenamento de dados adicionais em JSON
 
-Este projeto segue a licença Apache 2.0 do projeto original. 
+2. **Consulta e Atualização**
+   - Busca por múltiplos formatos de telefone
+   - Atualização de dados existentes
+   - Rastreamento de origem (source)
+
+3. **Qualificação**
+   - Validação automática
+   - Score de qualificação
+   - Histórico de interações
+
+### **Gestão de Imagens - Processo Completo**
+
+1. **Upload de Imagem**
+   - Conversão para BLOB
+   - Compressão automática
+   - Validação de formato
+
+2. **Metadados**
+   - Extração de informações
+   - Indexação para busca
+   - Associação com lead
+
+3. **Acesso Seguro**
+   - URLs assinadas
+   - Controle de acesso
+   - Expiração automática
+
+## 🔧 **Configuração Técnica**
+
+### **Variáveis de Ambiente**
+
+#### **Obrigatórias**
+- `SUPABASE_ACCESS_TOKEN`: Token de acesso pessoal
+- `PROJECT_REF`: ID de referência do projeto
+
+#### **Opcionais**
+- `FEATURES`: `database,docs,functions,storage,debug,development`
+- `PORT`: `45678` (padrão)
+
+### **Arquivos de Configuração**
+
+- `Dockerfile`: Imagem Docker
+- `docker-compose.yml`: Orquestração
+- `server.js`: Servidor HTTP wrapper
+- `package.json`: Dependências Node.js
+
+## 🚨 **Segurança e Boas Práticas**
+
+### **Configurações de Segurança**
+- ✅ Modo de escrita habilitado
+- ✅ Acesso completo ao banco
+- ✅ Operações de storage
+- ✅ Edge Functions
+
+### **Monitoramento**
+- Logs detalhados em `/status`
+- Health checks automáticos
+- Endpoints de diagnóstico
+
+### **Backup e Recuperação**
+- Backup regular do banco
+- Versionamento de migrações
+- Logs de auditoria
+
+## 📞 **Suporte e Troubleshooting**
+
+### **Endpoints de Diagnóstico**
+- `GET /health` - Status básico
+- `GET /status` - Status detalhado com variáveis
+- `GET /test` - Teste de conectividade
+- `POST /test` - Teste de POST
+
+### **Logs Úteis**
+- Logs de inicialização
+- Logs de requisições MCP
+- Logs de erros e warnings
+
+### **Problemas Comuns**
+1. **Token inválido**: Verificar `SUPABASE_ACCESS_TOKEN`
+2. **Projeto não encontrado**: Verificar `PROJECT_REF`
+3. **Timeout**: Verificar conectividade
+4. **Permissões**: Verificar permissões do token
+
+## 🔗 **Links Úteis**
+
+- **Servidor Ativo**: http://egkccc8ow4kw40gokgkw0.157.180.32.249.sslip.io
+- **Documentação Supabase**: https://supabase.com/docs
+- **MCP Protocol**: https://modelcontextprotocol.io/
+- **Coolify**: https://coolify.io
+
+## 📄 **Licença**
+
+Este projeto segue a licença Apache 2.0 do projeto original.
+
+---
+
+**🎉 Servidor 100% operacional e pronto para uso em produção!** 
