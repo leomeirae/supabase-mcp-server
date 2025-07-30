@@ -17,4 +17,14 @@ services:
     # Servidor HTTP wrapper para o MCP Server
     # As variáveis de ambiente serão injetadas aqui pelo Coolify.
     # Não é necessário listá-las, o Coolify fará isso automaticamente
-    # com base no que você configurar na UI. 
+    # com base no que você configurar na UI.
+    
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - supabase-mcp 
