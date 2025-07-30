@@ -3,8 +3,6 @@ services:
   supabase-mcp:
     build: .
     restart: unless-stopped
-    ports:
-      - "45678:45678"
     environment:
       - SUPABASE_ACCESS_TOKEN=${SUPABASE_ACCESS_TOKEN}
       - PROJECT_REF=${PROJECT_REF}
