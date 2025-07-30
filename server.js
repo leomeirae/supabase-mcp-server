@@ -104,9 +104,7 @@ app.post('/mcp', async (req, res) => {
     console.log('Spawning MCP server process...');
     
     // Spawn the MCP server process
-    const mcpProcess = spawn('npx', [
-      '-y',
-      '@supabase/mcp-server-supabase@latest',
+    const mcpProcess = spawn('supabase-mcp-server-supabase', [
       '--access-token', process.env.SUPABASE_ACCESS_TOKEN,
       '--project-ref', process.env.PROJECT_REF,
       '--features', process.env.FEATURES || 'database,docs,functions,storage,debug,development'

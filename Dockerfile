@@ -8,8 +8,9 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY server.js ./
 
-# Instala as dependências
+# Instala as dependências e o MCP server
 RUN npm install --production
+RUN npm install -g @supabase/mcp-server-supabase@latest
 
 # Define variáveis de ambiente que receberão os valores do Coolify.
 # Estes são os valores padrão; eles serão sobrescritos pelas configurações do seu serviço no Coolify.
