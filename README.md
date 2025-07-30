@@ -8,6 +8,10 @@ Este repositório contém os arquivos necessários para fazer o deploy do Supaba
 
 **Status**: ✅ **OPERACIONAL** - Pronto para uso em produção
 
+**Configuração de Porta**: 
+- **Interna**: 45678 (dentro do container)
+- **Externa**: 80 (acessível via HTTP)
+
 **Endpoints Disponíveis**:
 - `GET /` - Informações do servidor
 - `GET /health` - Status de saúde
