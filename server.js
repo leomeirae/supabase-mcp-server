@@ -103,25 +103,83 @@ app.post('/mcp', async (req, res) => {
     
     console.log('Spawning MCP server process...');
     
-    // Spawn the MCP server process
-    const mcpProcess = spawn('supabase-mcp-server-supabase', [
-      '--access-token', process.env.SUPABASE_ACCESS_TOKEN,
-      '--project-ref', process.env.PROJECT_REF,
-      '--features', process.env.FEATURES || 'database,docs,functions,storage,debug,development'
-    ], {
-      stdio: ['pipe', 'pipe', 'pipe']
-    });
+    // Try different commands to run the MCP server
+    const commands = [
+      ['npx', '-y', '@supabase/mcp-server-supabase@latest'],
+      ['supabase-mcp-server-supabase'],
+      ['node', '-e', 'require("@supabase/mcp-server-supabase")']
+    ];
+    
+    let mcpProcess = null;
+    let lastError = null;
+    
+    for (const command of commands) {
+      try {
+        console.log(`Trying command: ${command.join(' ')}`);
+        
+        const args = [
+          ...command.slice(1),
+          '--access-token', process.env.SUPABASE_ACCESS_TOKEN,
+          '--project-ref', process.env.PROJECT_REF,
+          '--features', process.env.FEATURES || 'database,docs,functions,storage,debug,development'
+        ];
+        
+        mcpProcess = spawn(command[0], args, {
+          stdio: ['pipe', 'pipe', 'pipe']
+        });
+        
+        // Test if process starts successfully
+        await new Promise((resolve, reject) => {
+          const timeout = setTimeout(() => {
+            mcpProcess.kill();
+            reject(new Error('Process start timeout'));
+          }, 5000);
+          
+          mcpProcess.on('error', (err) => {
+            clearTimeout(timeout);
+            reject(err);
+          });
+          
+          mcpProcess.on('spawn', () => {
+            clearTimeout(timeout);
+            resolve();
+          });
+        });
+        
+        console.log(`Successfully started MCP server with command: ${command.join(' ')}`);
+        break;
+        
+      } catch (err) {
+        console.log(`Failed with command ${command.join(' ')}:`, err.message);
+        lastError = err;
+        if (mcpProcess) {
+          mcpProcess.kill();
+        }
+        continue;
+      }
+    }
+    
+    if (!mcpProcess) {
+      console.log('All commands failed:', lastError);
+      return res.status(500).json({ 
+        error: 'Failed to start MCP server', 
+        details: lastError?.message,
+        triedCommands: commands.map(cmd => cmd.join(' '))
+      });
+    }
 
     let response = '';
     let error = '';
 
     // Handle stdout
     mcpProcess.stdout.on('data', (data) => {
+      console.log('MCP stdout:', data.toString());
       response += data.toString();
     });
 
     // Handle stderr
     mcpProcess.stderr.on('data', (data) => {
+      console.log('MCP stderr:', data.toString());
       error += data.toString();
     });
 
