@@ -4,7 +4,7 @@ services:
     build: .
     restart: unless-stopped
     ports:
-      - "80:45678"
+      - "8080:45678"
     environment:
       - SUPABASE_ACCESS_TOKEN=${SUPABASE_ACCESS_TOKEN}
       - PROJECT_REF=${PROJECT_REF}
