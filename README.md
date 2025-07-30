@@ -10,7 +10,7 @@ Este repositório contém os arquivos necessários para fazer o deploy do Supaba
 
 **Configuração de Porta**: 
 - **Interna**: 45678 (dentro do container)
-- **Externa**: 8080 (acessível via HTTP)
+- **Externa**: 45678 (acessível via HTTP)
 
 **Endpoints Disponíveis**:
 - `GET /` - Informações do servidor
